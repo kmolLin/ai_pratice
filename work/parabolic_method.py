@@ -26,9 +26,8 @@ if __name__ == '__main__':
     # x = u * v * np.cos(phi)
     # y = u * v * np.sin(phi)
     # z = ((x ** 2) / a + (y ** 2) / b)
-    theta = np.linspace(0, 2 * pi, 100)
-    radin = 100
-    points = ((0, 0), (10, 10), (20, 20))
+    # radin = 100
+    # points = ((0, 0), (10, 10), (20, 20))
     degree = 0
     pathpoints = []
     degree_tmp = []
@@ -36,29 +35,46 @@ if __name__ == '__main__':
     r = np.linspace(-5, 5, 100)
 
     p = 4
-    for i in range(0, p):
-        pathpoints.append((i, i))
-        degree_tmp.append(np.deg2rad(i * 45))
-        # x_tmp.append(i)
+    # for i in range(0, p):
+    #     pathpoints.append((i, i))
+    #     degree_tmp.append(np.deg2rad(i * 45))
+    #     # x_tmp.append(i)
 
-    x_tmp = np.linspace(-5, 5, p)
+    points_path = []
+    with open("ttt.txt", "r") as w:
+        files = w.readlines()
+        i = 0
+        for file in files:
+            # print(float(file.split(",")[0]), float(file.split(",")[1]))
+            points_path.append((float(file.split(",")[0]), float(file.split(",")[1])))
+            degree_tmp.append(np.deg2rad(i * 1))
+            i = i + 1
 
-    for i in range(p):
-        tt = np.linspace(-10 - pathpoints[i][0], 10 + pathpoints[i][1], 100)
-        t1x = tt * np.cos(degree_tmp[i])
-        t1y = tt * np.sin(degree_tmp[i])
-        zz = (t1x - pathpoints[i][0]) ** 2 + (t1y - pathpoints[i][1]) ** 2
-        ax.plot(t1x, t1y, zz, "b")
-
-        for j in range(p):
-            r = x_tmp[i] / np.cos(degree_tmp[j])
+    x_tmp = np.linspace(-0, 20, 5)
+    print(x_tmp)
+    for i in range(len(degree_tmp)):
+        # tt = np.linspace((-10 - points_path[i][0]) * 2, (10 + points_path[i][1]) * 2, 100)
+        # t1x = tt * np.cos(degree_tmp[i]) - points_path[i][0]
+        # t1y = tt * np.sin(degree_tmp[i]) - points_path[i][1]
+        # zz = t1x ** 2 + t1y ** 2
+        # ax.plot(t1x, t1y, zz, "b")
+        pass
+    y_tmp = []
+    z_tmp = []
+    for x_t in x_tmp:
+        for j in range(len(degree_tmp)):
+            r = x_t / np.cos(degree_tmp[j])
             y = r * np.sin(degree_tmp[j])
-            z = (x_tmp[i] - pathpoints[j][0]) ** 2 + (y - pathpoints[j][1]) ** 2
+            # xx, yy = np.meshgrid(x_t, y)
+            z = (x_t - points_path[j][0]) ** 2 + (y - points_path[j][1]) ** 2
 
-            if z > 250:
+            if z > 100:
                 continue
-            ax.scatter(x_tmp[i], y, z, c="r")
-
+            y_tmp.append(y)
+            z_tmp.append(z)
+            ax.scatter(x_t, y, z, c="r")
+    # aa, bb = np.meshgrid(x_tmp, y_tmp)
+    # ax.plot_wireframe(aa, bb, z_tmp)
     plt.show()
     exit()
     # let x = 1
