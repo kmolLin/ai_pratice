@@ -47,10 +47,10 @@ if __name__ == '__main__':
         for file in files:
             # print(float(file.split(",")[0]), float(file.split(",")[1]))
             points_path.append((float(file.split(",")[0]), float(file.split(",")[1])))
-            degree_tmp.append(np.deg2rad(i * 50))
+            degree_tmp.append(np.deg2rad(i * 5))
             i = i + 1
 
-    x_tmp = np.linspace(-0, 22, 10)
+    x_tmp = np.linspace(-0, 21, 10)
     # for i in range(len(degree_tmp)):
         # tt = np.linspace((-10 - points_path[i][0]) * 2, (10 + points_path[i][1]) * 2, 100)
         # t1x = tt * np.cos(degree_tmp[i]) - points_path[i][0]
@@ -60,18 +60,54 @@ if __name__ == '__main__':
         # pass
     y_tmp = []
     z_tmp = []
+    i = 0
     for x_t in x_tmp:
+        i += 1
         for j in range(len(degree_tmp)):
-            r = x_t / np.cos(degree_tmp[j])
-            y = r * np.sin(degree_tmp[j])
+            # if degree_tmp[j] == 0:
+            #     continue
+            y = (x_t - points_path[j][0]) * np.tan(degree_tmp[j]) + points_path[j][1]
+            z = np.sqrt((x_t) ** 2 + (y) ** 2)
+            if points_path[j][1] > 0:
+                if y > 22:
+                    continue
+                if y < -22:
+                    continue
+                ax.scatter(x_t, y, z, s=0.7, c="r")
+                cc = "r"
+            else:
+                if y > 22:
+                    continue
+                if y < -22:
+                    continue
+                ax.scatter(x_t, y, z, s=0.7, c="b")
+                cc = "b"
+            # r = (x_t - points_path[j][0]) / np.cos(degree_tmp[j])
+            # y = r * np.sin(degree_tmp[j]) + points_path[j][1]
+            # y = (np.sin(degree_tmp[j]) / np.sin((np.pi / 2) - degree_tmp[j])) * (x_t - points_path[j][0])\
+            #     + points_path[j][1]
+            # print(x_t, y)
             # xx, yy = np.meshgrid(x_t, y)
-            z = (x_t - points_path[j][0]) ** 2 + (y - points_path[j][1]) ** 2
+            # z = x_t ** 2 + y ** 2
             # print(z)
-            if z > 100:
+            if z > 200:
                 continue
-            y_tmp.append(y)
-            z_tmp.append(z)
-            ax.scatter(x_t, y, z, c="r", s=0.5)
+            # y_tmp.append(y)
+            # z_tmp.append(z)
+            # # ax.scatter(x_t, y, z, c="r", s=1)
+            # ax.scatter(x_t, y, z, s=0.7, c=cc)
+            # ax.scatter(x_t, y, 1)
+
+            # second method of Z dimesion
+            # x = np.sqrt(x_t) * np.cos(degree_tmp[j]) + points_path[j][0]
+            # y = np.sqrt(x_t) * np.sin(degree_tmp[j]) + points_path[j][1]
+            #
+            # x2 = np.sqrt(x_t) * np.cos(degree_tmp[j] + np.pi) + points_path[j][0]
+            # y2 = np.sqrt(x_t) * np.cos(degree_tmp[j] + np.pi) + points_path[j][1]
+            #
+            # ax.scatter(x, y, x_t, c="r", s=0.7)
+            # ax.scatter(x2, y2, x_t, c="b", s=0.7)
+
     # aa, bb = np.meshgrid(x_tmp, y_tmp)
     # ax.plot_wireframe(aa, bb, z_tmp)
     plt.show()
