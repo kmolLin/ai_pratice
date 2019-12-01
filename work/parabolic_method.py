@@ -47,18 +47,17 @@ if __name__ == '__main__':
         for file in files:
             # print(float(file.split(",")[0]), float(file.split(",")[1]))
             points_path.append((float(file.split(",")[0]), float(file.split(",")[1])))
-            degree_tmp.append(np.deg2rad(i * 1))
+            degree_tmp.append(np.deg2rad(i * 50))
             i = i + 1
 
-    x_tmp = np.linspace(-0, 20, 5)
-    print(x_tmp)
-    for i in range(len(degree_tmp)):
+    x_tmp = np.linspace(-0, 22, 10)
+    # for i in range(len(degree_tmp)):
         # tt = np.linspace((-10 - points_path[i][0]) * 2, (10 + points_path[i][1]) * 2, 100)
         # t1x = tt * np.cos(degree_tmp[i]) - points_path[i][0]
         # t1y = tt * np.sin(degree_tmp[i]) - points_path[i][1]
         # zz = t1x ** 2 + t1y ** 2
         # ax.plot(t1x, t1y, zz, "b")
-        pass
+        # pass
     y_tmp = []
     z_tmp = []
     for x_t in x_tmp:
@@ -67,12 +66,12 @@ if __name__ == '__main__':
             y = r * np.sin(degree_tmp[j])
             # xx, yy = np.meshgrid(x_t, y)
             z = (x_t - points_path[j][0]) ** 2 + (y - points_path[j][1]) ** 2
-
+            # print(z)
             if z > 100:
                 continue
             y_tmp.append(y)
             z_tmp.append(z)
-            ax.scatter(x_t, y, z, c="r")
+            ax.scatter(x_t, y, z, c="r", s=0.5)
     # aa, bb = np.meshgrid(x_tmp, y_tmp)
     # ax.plot_wireframe(aa, bb, z_tmp)
     plt.show()
