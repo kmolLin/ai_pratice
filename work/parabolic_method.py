@@ -47,10 +47,10 @@ if __name__ == '__main__':
         for file in files:
             # print(float(file.split(",")[0]), float(file.split(",")[1]))
             points_path.append((float(file.split(",")[0]), float(file.split(",")[1])))
-            degree_tmp.append(np.deg2rad(i * 5))
+            degree_tmp.append(np.deg2rad(i * 24))
             i = i + 1
 
-    x_tmp = np.linspace(-0, 21, 10)
+    x_tmp = np.linspace(-0, 21, 2000)
     # for i in range(len(degree_tmp)):
         # tt = np.linspace((-10 - points_path[i][0]) * 2, (10 + points_path[i][1]) * 2, 100)
         # t1x = tt * np.cos(degree_tmp[i]) - points_path[i][0]
@@ -67,21 +67,21 @@ if __name__ == '__main__':
             # if degree_tmp[j] == 0:
             #     continue
             y = (x_t - points_path[j][0]) * np.tan(degree_tmp[j]) + points_path[j][1]
-            z = np.sqrt((x_t) ** 2 + (y) ** 2)
+            z = np.sqrt((x_t - points_path[j][0]) ** 2 + (y - points_path[j][1]) ** 2)
             if points_path[j][1] > 0:
-                if y > 22:
-                    continue
-                if y < -22:
-                    continue
-                ax.scatter(x_t, y, z, s=0.7, c="r")
                 cc = "r"
             else:
-                if y > 22:
-                    continue
-                if y < -22:
-                    continue
-                ax.scatter(x_t, y, z, s=0.7, c="b")
                 cc = "b"
+            if y > 13:
+                continue
+            if y < -4:
+                continue
+            if z > 5:
+                continue
+            if z < 0.5:
+                if -0.5 < y < 0.5:
+                    ax.scatter(x_t, y, z, s=4, c=cc)
+
             # r = (x_t - points_path[j][0]) / np.cos(degree_tmp[j])
             # y = r * np.sin(degree_tmp[j]) + points_path[j][1]
             # y = (np.sin(degree_tmp[j]) / np.sin((np.pi / 2) - degree_tmp[j])) * (x_t - points_path[j][0])\
